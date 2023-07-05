@@ -54,4 +54,20 @@
   - Rating: `$.('#drpRating')`
     - Generate `<option>` tags:
       - `for (let i = [JSON Data... rating.min]-1? ; i < [JSON Data... rating.max]; i++)`
-    - 
+  
+<hr>
+
+####  AJAX REQUEST 1 `POST` 
+#####  File: `Lab5/php/RestaurantReviews.php`
+##### Task: 
+- hook up submit button `event listener` using `jQuery` 
+
+- `$.('#btnSave').on('click', funciton(){...});`
+
+
+- Make an AJAX `POST` request to the server sending the revised `JSON string`
+
+
+- Upon receiving the save request with super global `$_POST[updated JSON string]` ,
+- `RestaurantReviews.php` updates the restaurant data `[JSON]` and saves the updated restaurant back to `restaurant_review.xml`.
+  - use lab 4: `save xml` code
