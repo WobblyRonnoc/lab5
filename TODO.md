@@ -57,7 +57,7 @@
   
 <hr>
 
-####  AJAX REQUEST 1 `POST` 
+####  AJAX REQUEST 3 `POST` 
 #####  File: `Lab5/php/RestaurantReviews.php`
 ##### Task: 
 - hook up submit button `event listener` using `jQuery` 
