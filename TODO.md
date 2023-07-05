@@ -1,5 +1,9 @@
 ## TODO:
 
+*The path to `restaurant_review.xml` file should be maintained in `Lab5.ini` file*
+
+*The `URLs` of the `Ajax requests` should be maintained inside `Config.js` file*
+
 #### AJAX REQUEST 1 `GET`
 #####  File: `Lab5/js/RestaurantReviews.js`
 ##### Task:
