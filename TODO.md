@@ -69,5 +69,7 @@
 
 
 - Upon receiving the save request with super global `$_POST[updated JSON string]` ,
-- `RestaurantReviews.php` updates the restaurant data `[JSON]` and saves the updated restaurant back to `restaurant_review.xml`.
-  - use lab 4: `save xml` code
+- `RestaurantReviews.php` updates the restaurant data `[JSON]` and saves the updated restaurant back to `restaurant_review.xml`. *Use lab 4: `save xml` code*
+  
+
+  - In `RestaurantReviews.php` send a message as `JSON string` to the user whether the saving is successful and not.
