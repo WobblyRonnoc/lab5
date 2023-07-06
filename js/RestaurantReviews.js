@@ -5,17 +5,16 @@ to get the names of the restaurants in [restaurant_review.xml]
 .*/
 
 
-$.getScript("./Config.js");
+$.getScript("/Config.js");
 
 let php = urls["php"]
 
 
 // On Document Ready -> make ajax call
 $(function(){
-
    $.ajax({
-      url: urls["php"].concat("?action=getRestaurants"),
       method: "GET",
+      url: urls["php"] + "?action=getRestaurants",
       dataType: "json",
       success: function(data){
          data.forEach(function(restaurant, index){
