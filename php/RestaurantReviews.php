@@ -1,6 +1,4 @@
 <?php
-
-
 function GetXmlObject() : SimpleXMLElement{
     $xmlFilePath = parse_ini_file("../Lab5.ini")["xmlFilePath"];
     return simplexml_load_file($xmlFilePath);
