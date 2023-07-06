@@ -25,7 +25,7 @@ $(function(){
          });
       },
       error: function(event, request, settings){
-
+         window.alert('AjaxError' + ' : ' + settings);
       }
-   })
+   });
 });
