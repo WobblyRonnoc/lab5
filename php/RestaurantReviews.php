@@ -1,8 +1,5 @@
 <?php
-/* TODO
-    * Set up xml data access
-    * handle Ajax request 1
-*/
+
 
 function GetXmlObject() : SimpleXMLElement{
     $xmlFilePath = parse_ini_file("../Lab5.ini")["xmlFilePath"];
@@ -12,6 +9,7 @@ function GetXmlObject() : SimpleXMLElement{
 function GetRestaurantNames(SimpleXMLElement $restaurantData): array {
     $optionsArray = [];
     $restaurants = $restaurantData->restaurants->restaurant; // List of restaurant objects
+
 
     foreach ($restaurants as $restaurant){
         $optionsArray[] = $restaurant->name; // Append each restaurant's name to the array
@@ -26,5 +24,3 @@ if (isset($_GET["action"]) && $_GET["action"] == "getRestaurants"){
     $names = GetRestaurantNames($restaurantReviews);
     echo json_encode($names);
 }
-
-?>

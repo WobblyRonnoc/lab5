@@ -1,26 +1,22 @@
-/*
-AJAX REQUEST [A]
-on page ready: make Ajax request to the server
-to get the names of the restaurants in [restaurant_review.xml]
-.*/
+/* TODO
 
+*/
 
-$.getScript("/Config.js");
-
-let php = urls["php"]
-
+//$.getScript("js/Config.js");
 
 // On Document Ready -> make ajax call
 $(function(){
    $.ajax({
-      method: "GET",
+      type: "GET",
       url: urls["php"] + "?action=getRestaurants",
       dataType: "json",
       success: function(data){
-         data.forEach(function(restaurant, index){
+         $.each(data,function(index, value){
             let option = $("<option></option>");
-            option.id = index;
-            option.text(restaurant);
+            option.val(index)
+            option.text(value["0"]);
+
+            $('#drpRestaurant').append(option);
          });
       },
       error: function(event, request, settings){
