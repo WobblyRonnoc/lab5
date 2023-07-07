@@ -1,6 +1,9 @@
 <?php
+//Set xml filepath from .ini
+$xmlFilePath = parse_ini_file("../Lab5.ini")["xmlFilePath"];
+
 function GetXmlObject() : SimpleXMLElement{
-    $xmlFilePath = parse_ini_file("../Lab5.ini")["xmlFilePath"];
+    global $xmlFilePath;
     return simplexml_load_file($xmlFilePath);
 }
 
@@ -15,6 +18,25 @@ function GetRestaurantNames(SimpleXMLElement $restaurantData): array {
     return $optionsArray;
 }
 
+//assigned all keys to avoid errors while supplying empty strings for default restaurant DDL option
+function EmptyDataArray(): array{
+    $data = [];
+
+    //Address Data
+    $data["streetAddress"] = '';
+    $data["city"] = '';
+    $data["province"] = '';
+    $data["postalCode"] = '';
+
+    //Review Data
+    $data["summary"] = '';
+    $data["rating"] = '';
+    $data["ratingMin"] = '';
+    $data["ratingMax"] = '';
+
+    return $data;
+}
+
 $restaurantReviews = GetXmlObject();
 
 // on ready ajax response to fill restaurant select options
@@ -24,9 +46,12 @@ if (isset($_GET["action"]) && $_GET["action"] == "getRestaurants") {
 }
 
 if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "getRestaurantData") {
-
-
     $id = (int)$_GET["id"];
+    if ($id == -1){
+        // respond with data as JSON string//
+        echo json_encode(EmptyDataArray());
+       return;
+    }
 
     $restaurant = $restaurantReviews->restaurants->restaurant[$id]; // Get the restaurant specific to the received ID
 
@@ -51,6 +76,58 @@ if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "getResta
     echo json_encode($data);
 }
 
+if (isset($_POST["action"]) && isset($_POST["changes"]) && $_POST["action"] == "save") {
 
+    $postData = json_decode($_POST["changes"], true);
+
+    //Updated restaurant data
+    $id = $postData["id"];
+
+    //split the street name and number because my xml saves them separately...
+    $address = $postData["address"];
+    $parts = explode('+', $address);
+    $streetNumber = $parts[0];
+    $streetName = implode(' ', array_slice($parts, 1));
+
+    $city = $postData["city"];
+    $province = $postData["province"];
+    $postalCode = $postData["postalCode"];
+    $summary = $postData["summary"];
+    $rating = $postData["rating"];
+
+    // Apply changes to XML file
+    $xml = GetXmlObject();
+
+    $restaurant = $xml->restaurants->restaurant[$id];
+    $restaurant->address->streetName = $streetName;
+    $restaurant->address->streetNumber = $streetNumber;
+    $restaurant->address->city = $city;
+    $restaurant->address->province = $province;
+    $restaurant->address->postalCode = $postalCode;
+    $restaurant->review->summary = $summary;
+    $restaurant->review->rating = $rating;
+
+    // Save modified XML to file
+    $dom = dom_import_simplexml($xml)->ownerDocument;
+    $saveResult = $dom->save($xmlFilePath);
+
+    // Debugging: Log received POST data
+    file_put_contents('debug.log', print_r($postData, true));
+
+    //Echo server response
+    $response = [];
+
+    // Debugging: Log response data
+    file_put_contents('debug.log', print_r($response, true), FILE_APPEND);
+
+    if ($saveResult !== false) {
+        $response["xmlSaved"] = true;
+        $response["message"] = "Changes saved successfully!";
+    } else {
+        $response["xmlSaved"] = false;
+        $response["message"] = "Changes failed to save.";
+    }
+    echo json_encode($response);
+}
 
 

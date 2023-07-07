@@ -20,10 +20,10 @@
 
 			<review>
 				<foodType>Italian</foodType>
-				<price min="1" max="4">4</price>
+				<price min="1" max="5">4</price>
 				<date>2020-01-10</date>
 				<reviewer>Hunter S. Thompson</reviewer>
-				<rating max="5" min="1">4</rating>
+				<rating max="4" min="1">4</rating>
 				<summary>Giovanni's Italia Fine Dinning is a completely restored Victorian stone house and offers a warm and elegant atmosphere and gracious service</summary>
 			</review>
 		
@@ -219,7 +219,7 @@
 				<price min="1" max="4">2</price>
 				<date>2021-01-03</date>
 				<reviewer>Peter Jones</reviewer>
-				<rating max="5" min="1">3</rating>
+				<rating max="3" min="1">3</rating>
 				<summary>My favorite restaurant in Ottawa. The family who owns it are very warm and lovely people. They are incredible at recognizing you when you come back. The burritos are super good. You can customize however you want (guac is included!). I especially love that there is cactus in the veggie mix; it is a small, special thing that sets this place apart from other Mexican spots downtown.</summary>
 			</review>
 
