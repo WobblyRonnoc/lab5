@@ -80,41 +80,52 @@ RESTAURANT.on("change", function(){
 // Submit button event listener
 SAVE_BUTTON.on('click', function(){
     let formDataObj = {
-        id : $('#drpRestaurant option:selected').val(),
+        id : RESTAURANT.val(),
         address : STREET_ADDRESS.val(),
         city : CITY.val(),
         province : PROVINCE.val(),
         postalCode : POSTAL_CODE.val(),
         summary : SUMMARY.val(),
-        rating :  $('#drpRating option:selected').val()
+        rating :  RATING.val()
     };
 
-    $.ajax({
-        type: "POST",
-        url: urls["save"],
-        dataType: "json",
-        data: { changes : JSON.stringify(formDataObj)},
-        success: function(fileSaved)
-        {
-            if (fileSaved["success"]){
-                SUCCESS_ALERT.text("Changes Saved!")
-                SUCCESS_ALERT.addClass("alert-success");
-                SUCCESS_ALERT.removeClass("alert-danger");
-                SUCCESS_ALERT.show("slow");
-            } else {
-                SUCCESS_ALERT.text("Changes failed to save!")
-                SUCCESS_ALERT.removeClass("alert-success");
-                SUCCESS_ALERT.addClass("alert-danger");
-                SUCCESS_ALERT.show("fast");
+    if (RESTAURANT.val() === '-1'){
+        SUCCESS_ALERT.text("Select a restaurant before saving!")
+        SUCCESS_ALERT.removeClass("alert-success");
+        SUCCESS_ALERT.addClass("alert-danger");
+        SUCCESS_ALERT.show("fast");
+    } else {
+        $.ajax({
+            type: "POST",
+            url: urls["save"],
+            dataType: "json",
+            data: { changes : JSON.stringify(formDataObj)},
+            success: function(fileSaved)
+            {
+                if (fileSaved["success"]){
+                    SUCCESS_ALERT.text("Changes Saved!")
+                    SUCCESS_ALERT.addClass("alert-success");
+                    SUCCESS_ALERT.removeClass("alert-danger");
+                    SUCCESS_ALERT.show("slow");
+                } else {
+                    SUCCESS_ALERT.text("Changes failed to save!")
+                    SUCCESS_ALERT.removeClass("alert-success");
+                    SUCCESS_ALERT.addClass("alert-danger");
+                    SUCCESS_ALERT.show("fast");
+                }
+
+
+            },
+            error: function (xhr, status, error)
+            {
+                window.alert('AjaxError' + ' : ' + error);
             }
+        });
+    }
 
 
-        },
-        error: function (xhr, status, error)
-        {
-            window.alert('AjaxError' + ' : ' + error);
-        }
-    });
+
+
 
 
 });

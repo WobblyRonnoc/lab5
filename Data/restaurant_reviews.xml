@@ -11,8 +11,8 @@
 			<logo width="200" height="200" unit="px" link="www.giovannis.com/img/logo.gif"/>
 		
 			<address>
-				<streetName>Lakeview Road</streetName>
-				<streetNumber>2100</streetNumber>
+				<streetName/>
+				<streetNumber>2100 Lakeview Road  </streetNumber>
 				<city>Toronto</city>
 				<province>ON</province>
 				<postalCode>K1K 1K1</postalCode>
@@ -23,7 +23,7 @@
 				<price min="1" max="4">4</price>
 				<date>2020-01-10</date>
 				<reviewer>Hunter S. Thompson</reviewer>
-				<rating max="5" min="1">4</rating>
+				<rating max="5" min="1">5</rating>
 				<summary>Giovanni's Italia Fine Dinning is a completely restored Victorian stone house and offers a warm and elegant atmosphere and gracious service</summary>
 			</review>
 		
