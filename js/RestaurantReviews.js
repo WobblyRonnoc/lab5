@@ -26,7 +26,7 @@ $(function(){
         success: function(data){
             $.each(data,function(index, value){
                 let option = $("<option></option>");
-                option.val(index)
+                option.val(index);
                 option.text(value["0"]);
 
                 RESTAURANT.append(option);
@@ -72,54 +72,39 @@ RESTAURANT.on("change", function(){
 });
 
 // Submit button event listener
-SAVE_BUTTON.click(function(){
-    // let formDataObj = {
-    //     id : RESTAURANT.find('option:selected').val(),
-    //     address : STREET_ADDRESS.val(),
-    //     city : CITY.val(),
-    //     province : PROVINCE.val(),
-    //     postalCode : POSTAL_CODE.val(),
-    //     summary : SUMMARY.val(),
-    //     rating :  RATING.find('option:selected').val()
-    // };
-
-    // $.post(urls["save"],JSON.stringify(formDataObj),
-    //     function(response) {
-    //         // Server Response is a JSON string containing xml file saving success or failure
-    //
-    //         console.log("success!")
-    // }, "json")
-    //     .fail(function(xhr, status, error) {
-    //         console.log("AJAX Error:", status, error);
-    //         window.alert('AjaxError' + ' : ' + error);
-    //
-    //
-    //     });
+SAVE_BUTTON.on('click', function(){
+    let formDataObj = {
+        id : $('#drpRestaurant option:selected').val(),
+        address : STREET_ADDRESS.val(),
+        city : CITY.val(),
+        province : PROVINCE.val(),
+        postalCode : POSTAL_CODE.val(),
+        summary : SUMMARY.val(),
+        rating :  $('#drpRating option:selected').val()
+    };
 
     $.ajax({
         type: "POST",
         url: urls["save"],
-        data: JSON.stringify({
-            id: RESTAURANT.find('option:selected').val(),
-            address: STREET_ADDRESS.val(),
-            city: CITY.val(),
-            province: PROVINCE.val(),
-            postalCode: POSTAL_CODE.val(),
-            summary: SUMMARY.val(),
-            rating: RATING.find('option:selected').val()
-        }),
-        dataType: "text",
+        dataType: "json",
+        data: { changes : JSON.stringify(formDataObj)},
         success: function(response)
         {
             // Server Response is a JSON string containing xml file saving success or failure
-
-            console.log("success!")
+            console.log("success!");
+            console.log(response);
+            $('#lblConfirmation').val(response);
 
         },
         error: function (xhr, status, error)
         {
-            console.log("AJAX Error:", status, error);
-            console.log("Response:", xhr.responseText);
+            console.log(xhr);
+            console.log(status);
+            console.log(error);
+
+
+            // console.log("AJAX Error:", status, error);
+            // console.log("Response:", xhr.responseText);
             window.alert('AjaxError' + ' : ' + error);
         }
     });

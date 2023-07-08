@@ -76,13 +76,36 @@ if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "getResta
     echo json_encode($data);
 }
 
-if (isset($_POST["action"]) && isset($_POST["changes"]) && $_POST["action"] == "save") {
+//if(isset($_GET["action"]) && $_GET["action"] == "save"){
+//    $json ='{"id":"1","address":"1387557885 Woodroffe Avenue","city":"Montreal","province":"QC","postalCode":"K2G 1V8","summary":"The food is always consistent. A good variety of dim sum, sushi, Chinese and even Vietnamese dishes. The service is quick and the food is plentiful. We sat down last night and within seconds of turning in our first order, the plates were on the table! The teriyaki dishes had the right amount of sauce and werent sickeningly sweet. The chicken, fish, and beef were perfectly cooked. The makirolls were neatly rolled, cut properly and seasoned well. Loved the General Tao chicken, the steamed BBQ pork buns, the eel sushi and the lovely eggplant. We will be going back again! I would highly recommend it.","rating":"5"}';
+//
+//    $postData = json_decode($json, true);
+//
+//    //Updated restaurant data
+//    $id = $postData["id"];
+//    //split the street name and number because my xml saves them separately...
+//    $address = $postData["address"];
+//    $parts = explode('+', $address);
+//    $streetNumber = $parts[0];
+//    $streetName = implode(' ', array_slice($parts, 1));
+//
+//    $city = $postData["city"];
+//    $province = $postData["province"];
+//    $postalCode = $postData["postalCode"];
+//    $summary = $postData["summary"];
+//    $rating = $postData["rating"];
+//
+//    foreach ($postData as $i){
+//        print "$i";
+//    }
+//
+//}
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] = "save") {
     $postData = json_decode($_POST["changes"], true);
 
     //Updated restaurant data
     $id = $postData["id"];
-
     //split the street name and number because my xml saves them separately...
     $address = $postData["address"];
     $parts = explode('+', $address);
@@ -111,22 +134,16 @@ if (isset($_POST["action"]) && isset($_POST["changes"]) && $_POST["action"] == "
     $dom = dom_import_simplexml($xml)->ownerDocument;
     $saveResult = $dom->save($xmlFilePath);
 
-    // Debugging: Log received POST data
-    file_put_contents('debug.log', print_r($postData, true));
-
-    //Echo server response
     $response = [];
 
-    // Debugging: Log response data
-    file_put_contents('debug.log', print_r($response, true), FILE_APPEND);
-
+    //Echo server response
     if ($saveResult !== false) {
-        $response["xmlSaved"] = true;
-        $response["message"] = "Changes saved successfully!";
+        $response["message"] = "Success!";
     } else {
-        $response["xmlSaved"] = false;
-        $response["message"] = "Changes failed to save.";
+        $response["message"] = "Failure!";
     }
+
+//    echo $response["message"];
     echo json_encode($response);
 }
 
