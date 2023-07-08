@@ -7,6 +7,7 @@ const POSTAL_CODE = $('#txtPostalZipCode');
 const SUMMARY = $('#txtSummary');
 const RATING = $('#drpRating');
 const SAVE_BUTTON = $('#btnSave');
+const SUCCESS_ALERT = $('#lblConfirmation');
 
 function ClearForm(){
     STREET_ADDRESS.val('');
@@ -19,6 +20,9 @@ function ClearForm(){
 
 // Fill restaurant selection DDL when document is ready
 $(function(){
+
+    SUCCESS_ALERT.hide(); // hide save success/error alert
+
     $.ajax({
         type: "GET",
         url: urls["getRestaurants"],
@@ -27,8 +31,7 @@ $(function(){
             $.each(data,function(index, value){
                 let option = $("<option></option>");
                 option.val(index);
-                option.text(value["0"]);
-
+                option.text(value.toString());
                 RESTAURANT.append(option);
             });
         },
@@ -39,8 +42,11 @@ $(function(){
 });
 
 RESTAURANT.on("change", function(){
+
+    SUCCESS_ALERT.hide("slow"); // hide save success/error alert
+
     RATING.empty(); //Clear any previously generated rating DDL options
-    let id = RESTAURANT.val();
+    let id = RESTAURANT.val().toString();
     $.ajax({
         type: "GET",
         url: urls["getRestaurantData"].concat(id),
@@ -88,23 +94,24 @@ SAVE_BUTTON.on('click', function(){
         url: urls["save"],
         dataType: "json",
         data: { changes : JSON.stringify(formDataObj)},
-        success: function(response)
+        success: function(fileSaved)
         {
-            // Server Response is a JSON string containing xml file saving success or failure
-            console.log("success!");
-            console.log(response);
-            $('#lblConfirmation').val(response);
+            if (fileSaved["success"]){
+                SUCCESS_ALERT.text("Changes Saved!")
+                SUCCESS_ALERT.addClass("alert-success");
+                SUCCESS_ALERT.removeClass("alert-danger");
+                SUCCESS_ALERT.show("slow");
+            } else {
+                SUCCESS_ALERT.text("Changes failed to save!")
+                SUCCESS_ALERT.removeClass("alert-success");
+                SUCCESS_ALERT.addClass("alert-danger");
+                SUCCESS_ALERT.show("fast");
+            }
+
 
         },
         error: function (xhr, status, error)
         {
-            console.log(xhr);
-            console.log(status);
-            console.log(error);
-
-
-            // console.log("AJAX Error:", status, error);
-            // console.log("Response:", xhr.responseText);
             window.alert('AjaxError' + ' : ' + error);
         }
     });

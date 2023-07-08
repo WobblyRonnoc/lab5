@@ -13,7 +13,7 @@ function GetRestaurantNames(SimpleXMLElement $restaurantData): array {
 
 
     foreach ($restaurants as $restaurant){
-        $optionsArray[] = $restaurant->name; // Append each restaurant's name to the array
+        $optionsArray[] = (string)$restaurant->name; // Append each restaurant's name to the array
     }
     return $optionsArray;
 }
@@ -75,37 +75,15 @@ if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "getResta
     // respond with data as JSON string
     echo json_encode($data);
 }
+if (isset($_POST["action"]) && $_POST["action"] == "save"){
 
-//if(isset($_GET["action"]) && $_GET["action"] == "save"){
-//    $json ='{"id":"1","address":"1387557885 Woodroffe Avenue","city":"Montreal","province":"QC","postalCode":"K2G 1V8","summary":"The food is always consistent. A good variety of dim sum, sushi, Chinese and even Vietnamese dishes. The service is quick and the food is plentiful. We sat down last night and within seconds of turning in our first order, the plates were on the table! The teriyaki dishes had the right amount of sauce and werent sickeningly sweet. The chicken, fish, and beef were perfectly cooked. The makirolls were neatly rolled, cut properly and seasoned well. Loved the General Tao chicken, the steamed BBQ pork buns, the eel sushi and the lovely eggplant. We will be going back again! I would highly recommend it.","rating":"5"}';
-//
-//    $postData = json_decode($json, true);
-//
-//    //Updated restaurant data
-//    $id = $postData["id"];
-//    //split the street name and number because my xml saves them separately...
-//    $address = $postData["address"];
-//    $parts = explode('+', $address);
-//    $streetNumber = $parts[0];
-//    $streetName = implode(' ', array_slice($parts, 1));
-//
-//    $city = $postData["city"];
-//    $province = $postData["province"];
-//    $postalCode = $postData["postalCode"];
-//    $summary = $postData["summary"];
-//    $rating = $postData["rating"];
-//
-//    foreach ($postData as $i){
-//        print "$i";
-//    }
-//
-//}
+}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] = "save") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $postData = json_decode($_POST["changes"], true);
 
     //Updated restaurant data
-    $id = $postData["id"];
+    $id = (int)$postData["id"];
     //split the street name and number because my xml saves them separately...
     $address = $postData["address"];
     $parts = explode('+', $address);
@@ -133,17 +111,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["a
     // Save modified XML to file
     $dom = dom_import_simplexml($xml)->ownerDocument;
     $saveResult = $dom->save($xmlFilePath);
-
     $response = [];
 
     //Echo server response
     if ($saveResult !== false) {
-        $response["message"] = "Success!";
+        $response["success"] = true;
     } else {
-        $response["message"] = "Failure!";
+        $response["success"] = false;
     }
 
-//    echo $response["message"];
     echo json_encode($response);
 }
 
