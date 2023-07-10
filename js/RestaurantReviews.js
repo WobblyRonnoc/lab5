@@ -42,8 +42,8 @@ $(function(){
 });
 
 RESTAURANT.on("change", function(){
-
-    SUCCESS_ALERT.hide("slow"); // hide save success/error alert
+    //Hide save success/error alert
+    SUCCESS_ALERT.hide("slow");
 
     RATING.empty(); //Clear any previously generated rating DDL options
     let id = RESTAURANT.val().toString();
@@ -113,8 +113,6 @@ SAVE_BUTTON.on('click', function(){
                     SUCCESS_ALERT.addClass("alert-danger");
                     SUCCESS_ALERT.show("fast");
                 }
-
-
             },
             error: function (xhr, status, error)
             {
@@ -122,10 +120,4 @@ SAVE_BUTTON.on('click', function(){
             }
         });
     }
-
-
-
-
-
-
 });

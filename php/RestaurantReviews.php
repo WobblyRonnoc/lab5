@@ -48,9 +48,8 @@ if (isset($_GET["action"]) && $_GET["action"] == "getRestaurants") {
 if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "getRestaurantData") {
     $id = (int)$_GET["id"];
     if ($id == -1){
-        // respond with data as JSON string//
         echo json_encode(EmptyDataArray());
-       return;
+        return;
     }
 
     $restaurant = $restaurantReviews->restaurants->restaurant[$id]; // Get the restaurant specific to the received ID
@@ -75,15 +74,13 @@ if (isset($_GET["action"]) && isset($_GET["id"]) && $_GET["action"] == "getResta
     // respond with data as JSON string
     echo json_encode($data);
 }
-if (isset($_POST["action"]) && $_POST["action"] == "save"){
-
-}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $postData = json_decode($_POST["changes"], true);
 
     //Updated restaurant data
     $id = (int)$postData["id"];
+
     //split the street name and number because my xml saves them separately...
     $address = $postData["address"];
     $parts = explode('+', $address);
@@ -119,7 +116,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $response["success"] = false;
     }
-
     echo json_encode($response);
 }
 
